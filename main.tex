@@ -1,0 +1,143 @@
+\documentclass[10pt]{article}
+\usepackage{NotesTeX,lipsum}
+\graphicspath{ {/Images/} }
+\title{Combinatorics}
+\emailAdd{preerakcontractor@gmail.com}
+\author{Prerak Contractor}
+
+\begin{document}
+\maketitle
+\pagestyle{fancynotes}
+\part{Graph Theory}
+
+\section{Isomorphism}
+
+\begin{definition}
+    Two graphs $G$ and $G'$ are isomorphic if there exists one to one correspondence from vertices in $G$ to $G'$ such that a pair of vertices are adjacent in $G$ if and only if the corresponding vertices in $G'$ are adjacent.
+\end{definition}
+
+Some common ideas to check (or disprove) if two graphs are isomorphic:
+
+\begin{itemize}
+    \item Number of vertices must be equal.
+    \item Number of vertices for any given degree must be equal.
+    \item Each subgraph in $G$ must have an isomorphic subgraph in $G'$.
+    \item Symmetries can be exploited to find matching vertices in two graphs.
+\end{itemize}
+
+\remark{These set of conditions are not exhaustive to show if two graphs are isomorphic}
+
+\section{Edge Counting}
+
+\begin{theorem}
+    For any graph, sum of degrees of vertices is twice the number of edges in graph.
+\end{theorem}
+
+Some applications of above theorem:
+
+\begin{itemize}
+    \item There must be even number of vertices with odd degree.
+    \item If a graph has only two vertices with odd degree, there must be a path connecting those two vertices. Otherwise, they would be in different connected components, however such subgraphs cannot exist since they will contain only one (odd number) vertex of odd degree. 
+\end{itemize}
+
+\begin{problem}
+    Two people start at locations $A$ and $Z$ which are at same elevation of a mountain range on opposite sides of a summit $M$. Prove that if there is no point lower than $A$ or higher than $M$, then it is always possible for them to reach summit such that they are at the same level at every point of time.
+\end{problem}
+
+\begin{solution}
+    Construct a graph as follows:
+
+    \begin{itemize}
+        \item Vertices are tuples $(P_L, P_R)$, with points $P_L$ and $P_R$ being on left and right side of summit $M$ respectively and either one (or both) are local peaks or valleys.
+        \item Edge exists between two vertices $(P_L, P_R)$ and $(P_L', P_{R'})$ if two people can walk from $P_L$ to $P_L'$ and $P_R$ to $P_{R'}$ by walking in same direction (either up or down).
+    \end{itemize}
+
+    The problem now reduces to showing that there exists a path from $(A, Z)$ to $(M,M)$. It can be shown that the vertices $(A, Z)$ and $(M,M)$ have degree one (one can only go in one of the two directions from these points and stop when one reaches a local peak or valley) and all other vertices have degrees 2 or 4. 
+
+    Then there must exist a path between the two vertices since they are the only two vertices of odd degree.
+\end{solution}
+
+\section{Bipartite Graphs}
+
+\begin{definition}
+    A graph is bipartite if we can partition it into two sets such that no two vertices in same set are adjacent.
+\end{definition}
+
+\begin{theorem}
+    A graph is bipartite if and only if each cycle has even length (length here means number of edges in graph).
+\end{theorem}
+
+\section{Planar Graphs}
+
+\begin{definition}
+    A graph is planar if it can be drawn on a plane with no two edge intersecting.
+\end{definition}
+
+\subsection{Circle-cord method}
+
+A method to check if a graph is planar. Note that this method will not always disprove if a graph is planar.
+
+First, find a cycle in graph which covers all the vertices, and represent it as a circle.
+
+Now pick an edge and draw it as in-circle or out-circle chord (doesn't matter which). This will force some edges to be out-circle or in-circle chord. Draw these edges. Keep doing this. If we find an edge which cannot be either in-circle or out-circle, the graph is not planar. If the process terminate, we have found a representation of the graph as a planar graph.
+
+\begin{definition}
+    The graph $K_5$ is the complete graph with five vertices, that is every vertex is connected to every other vertex.
+
+    \vspace{1em}
+
+    The graph $K_{3,3}$ is the complete bipartite graph with 3 vertices in each partition, that is, every vertex in one partition is adjacent to every vertex in other partition.
+
+    \vspace{1em}
+
+    A graph $G'$ is a configuration of another graph $G$ if it is obtained by adding vertices in between edges, that is an edge $ab$ is converted to two edges $ac$ and $cb$ by introducing a new vertex $c$.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Kuratowski, 1930}
+
+    A graph is planar if and only if it does not contain a subgraph that is a configuration of $K_5$ or $K_{3,3}$
+\end{theorem}
+
+\begin{definition}
+    Region in a planar representation of graph is an area bounded by edges. This definition also includes areas which extend to infinity. For example, in the graph $C_3$ (cycle of length 3), there are two regions, one inside the cycle and one outside.
+\end{definition}
+
+\begin{theorem}
+    \textbf{Euler's Formula (1752)}
+
+    For a connected planar graph $G$ with $r$ regions, $v$ vertices and $e$ edges, the following holds:
+
+    \begin{equation}
+        r = e - v + 2
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    We can construct an inductive proof. The theorem is true for a connected graph with two vertices and one edge. Consider it is true for all graphs having $n-1$ edges.
+
+    Now consider adding another edge. If it connects two vertices $x$, $y$ (they must be in same region) which were in the graph, it adds new region and new edge, and hence formula is still satisfied. If a new vertex is added, the number of regions remain the same but an edge and a vertex increases, and hence formula remains valid. We cannot add two new vertices and connect them using new edge as otherwise the graph will not be connected.
+\end{proof}
+
+\begin{theorem}
+    For a general connected planar graph with more than one edge, the following inequality must hold:
+
+    \begin{equation}
+        e \leq 3v - 6
+    \end{equation}
+
+    And for bipartite connected planar graph, we get a tighter constraint:
+
+    \begin{equation}
+        e \leq 2v - 4
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Consider degree of region as number of edges incident to region. An edge may be counted twice in degree if the region is on both sides of the edge.
+
+    Each region must have degree at least 3 (since region of degree two is possible only in graph with one edge). Also, sum of degrees of regions is equal to $2e$ (each edge is counted twice, one in each of the two boundaries on the two sides of the edge.) Hence, ($d$ represented degree), $d  = 2e \geq 3r \implies r \leq 2e / 3 $. Using Euler's formula, $2e / 3 \geq r = e - v + 2 \implies e \leq 3v - 6$.
+
+    A similar argument for bipartite graph where each cycle has even length and hence every region must have degree at least 4 gives the second inequality.
+\end{proof}
+\end{document}
