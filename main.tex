@@ -140,4 +140,78 @@ Now pick an edge and draw it as in-circle or out-circle chord (doesn't matter wh
 
     A similar argument for bipartite graph where each cycle has even length and hence every region must have degree at least 4 gives the second inequality.
 \end{proof}
+
+\section{Euler Cycles}
+
+\begin{definition}
+    Under the modified definition of a cycle which allows us to visit a vertex more than once, an Euler cycle is a cycle that contains all the edges in the graph and visits each vertex at least once. This definition is also valid for multigraphs which allows multiple edges to exist between two vertices.
+\end{definition}
+
+\newpage
+
+\begin{theorem}
+    An undirected multigraph has an Euler cycle if and only if it is connected and has all the vertices of even degree. \marginnote{Note: If we remove the constraint that all the vertices have to be visited once at least, we may have graphs with isolated vertices which still have an Euler cycle. Hence the constraint that the graph needs to be connected may be violated if considering the alternate definition of Euler cycle.}
+\end{theorem}
+
+\begin{proof}
+    Graph having Euler cycle will be connected and will have all the vertices of even degree.
+
+    For the reverse direction of proof, consider a graph which satisfies the given conditions. Pick a vertex $a$, and go along a trail (path with repeated vertices allowed). Since every vertex has even degree, you can exit any vertex you entered and hence the trail must end at $a$. Let the cycle formed be $C$ and let the remaining graph by removing the edges in trail be $G'$. Let $b$ be the common vertex of $C$ and $G'$ (it must exist since the graph is connected). Construct a trail from $b$ in $G'$ which terminates at $b$ and call it $C'$. Joining $C$ and $C'$ gives us a bigger cycle and a smaller subgraph $G''$. Repeating this procedure gives us the Euler cycle.
+\end{proof}
+
+\section{Hamiltonian Cycles}
+
+\begin{definition}
+    A Hamiltonian cycle is a cycle which includes all the vertices in the graph.
+\end{definition}
+
+A few rules to use when building/determining if a graph has a Hamiltonian cycle:
+
+\begin{itemize}
+    \item If a vertex $x$ has degree 2, both of the edges incident to $x$ must be in Hamiltonian cycle
+    \item No proper subcycle can be formed when building a Hamiltonian cycle. 
+    \item Once the Hamiltonian cycle is required to use 2 edges at a vertex, all other edges at the vertex must be removed from consideration.
+\end{itemize}
+
+\begin{theorem}
+    \textbf{Dirac, 1952}
+
+    A graph with $n>2$ vertices has a Hamiltonian cycle if the degree of each vertex is at least $n/2$ 
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Chvatal, 1972}
+
+    Let $G$ be a connected graph with, and let the vertices $x_1, x_2, \ldots, x_n$ be sorted according to their degrees. If for each $k \leq n / 2$, either deg($x_k$) $> k$ or deg($x_{n-k}$) $\geq n - k$, $G$ has a Hamiltonian cycle.
+\end{theorem}
+
+\begin{theorem}
+    \textbf{Grinberg, 1968}
+
+    For a planar graph $G$ having Hamiltonian cycle $H$ drawn with a planar depiction, let $r_i$ denote the number of regions inside the Hamiltonian cycle bounded by $i$ edges in the depiction. Also let $r_i'$ be number of regions outside the cycle bounded by $i$ edges. Then the following equation holds:
+
+    \begin{equation}
+        \sum_i (i-2)(r_i - r_i') = 0
+    \end{equation}
+\end{theorem}
+
+\vspace{3em}
+
+\begin{definition}
+    A \textbf{tournament} is a directed graph where there is either an edge $uv$ or $vu$ (not both as we are considering simple graphs) for any pair of vertices $u,v$
+\end{definition}
+
+\begin{theorem}
+    Any tournament has a path of length of $n-1$, where $n$ is the number of vertices, that is a path including all the vertices.
+\end{theorem}
+
+\marginnote{When using induction on structure of graph, it may be incorrect to construct a bigger graph from a smaller graph which satisfies the hypothesis. The correct way is to reduce a bigger graph, and show the hypothesis remains true by increasing the size from the smaller graph.}
+
+\begin{proof}
+    Proof by induction:
+
+    The statement is true for $n=1$ and $n=2$. Now assume the statement is true for all graphs with $n-1$ vertices or less. Consider a tournament with $n$ nodes. Pick a vertex $x$ and remove it from the graph. The smaller graph will then have a path $a \rightarrow b$ including all the vertices. If an edge oriented $xa$ or $bx$ were to exist, we could include the vertex $x$ in the path ($x\rightarrow a \rightarrow b$ or $a \rightarrow b \rightarrow x$). 
+    
+    For the case when the edges were oriented $ax$ and $xb$, there must exist vertices $a'$, $b'$ adjacent in the path with $a'$ coming before $b'$ such that the edges with $x$ are oriented $a'x$ and $xb'$ (the direction of edges must flip somewhere along the path as they oppositely oriented at the endpoints). Then we can add the vertex in the path as follows: $a \rightarrow a' \rightarrow x \rightarrow b' \rightarrow b$, and hence a path including all the vertices exist in the graph. Hence by induction, the theorem holds.
+\end{proof}
 \end{document}
